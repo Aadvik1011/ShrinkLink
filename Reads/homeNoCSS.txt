@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: rgb(180, 180, 180);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>URL SHORTENER</h1>
+    <% if (locals.id) { %>
+        <p>URL Generated: <a href="http://localhost:9000/url/<%= id %>">http://localhost:9000/url/<%= id %></a></p>
+    <% } %>
+    <div>
+        <form method="POST" action="/url">
+            <label for="url">Enter URL:</label>
+            <input type="text" name="url" placeholder="http://example.com/Url">
+            <button type="submit">Generate</button>
+        </form>
+    </div>
+    <div>
+        <% if (locals.urls && locals.urls.length) { %>
+        <table>
+            <thead>
+                <tr>
+                    <th>S.No</th>
+                    <th>Redirect</th>
+                    <th>ShortID</th>
+                    <th>New Link</th>
+                    <th>Clicks</th>
+                </tr>
+            </thead>
+            <tbody>
+                //add new links to the server
+                <% urls.forEach((url, index) => { %>
+                <tr>
+                    <td><%= index + 1 %></td>
+                    <td><a href="<%= url.redirectUrl %>"><%= url.redirectUrl %></a></td> 
+                    <td><%= url.shortId %></td>
+                    <td><a href='http://localhost:9000/url/<%=url.shortId%>'><%= url.shortId %></a></td>
+                    <td><%= url.visitHistory.length %></td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+        <% } %>
+    </div>
+</body>
+</html>
